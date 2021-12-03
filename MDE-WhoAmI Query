@@ -1,0 +1,11 @@
+// The processes listed will generate a lot of false positives, you can remove them if not in your environment or you want to see how noisy they get
+DeviceProcessEvents  
+    | where Timestamp > ago(1d)
+    | where FileName in~ ("whoami.exe") 
+    | where InitiatingProcessParentFileName != "Skype.exe"
+    | where InitiatingProcessParentFileName != "SWJobEngineWorker2.exe"
+    | where InitiatingProcessFileName != "SWJobEngineWorker2.exe"
+    | where InitiatingProcessParentFileName != "acslaunch_win-64.exe"
+    | where InitiatingProcessParentFileName != "acslaunch_win-32.exe" 
+    | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId, InitiatingProcessParentFileName 
+    | top 100 by Timestamp 
