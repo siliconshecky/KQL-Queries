@@ -1,0 +1,7 @@
+// This Microsoft Defender query withh show you who over the past 7 days has run either net.exe or net1.exe to enumerate groups or administrators
+// This can be used as a custom detection to send out alerts.
+
+DeviceProcessEvents
+| where Timestamp > ago(7d) and FileName in~ ("net.exe", "net1.exe")  
+| extend CanonicalCommandLine=replace("\"", "", ProcessCommandLine)
+| where CanonicalCommandLine contains "group" and CanonicalCommandLine contains "administrators"
