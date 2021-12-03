@@ -1,0 +1,8 @@
+// This will run on any current subscription you have access to. You may beed contributor role to get results.
+// It will query the subscriptions for WebApps and show you the external IP they are on. 
+// It is a manual way to keep tabs on what WebApps are exposed to the world.
+
+Resources
+| where type == "microsoft.web/sites"
+| project name, properties.possibleInboundIpAddresses, properties.enabledHostNames
+| order by name asc
