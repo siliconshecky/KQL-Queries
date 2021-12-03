@@ -1,0 +1,5 @@
+// This will show External IPs of resource groups for your subscription. You may need Contributor role.
+
+Resources
+| where type contains 'publicIPAddresses' and isnotempty(properties.ipAddress)
+| project name, properties.ipAddress, resourceGroup, subscriptionId
