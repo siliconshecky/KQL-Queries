@@ -1,0 +1,9 @@
+DeviceProcessEvents  
+    | where Timestamp > ago(1d)
+    | where FileName in ("powershell.exe", "pwsh.exe") 
+    | where ProcessCommandLine contains "-e" or ProcessCommandLine contains "-ec" or ProcessCommandLine contains "-en" or ProcessCommandLine contains "FromBase64String" or ProcessCommandLine contains "value.toString"
+    | where ProcessCommandLine !contains "Encoding" 
+    | where ProcessCommandLine !contains "-ex"
+    | where ProcessCommandLine !contains "-eq"
+    | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, DeviceId, ReportId, InitiatingProcessParentFileName 
+    | top 100 by Timestamp 
