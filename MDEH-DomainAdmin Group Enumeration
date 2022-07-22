@@ -1,0 +1,5 @@
+DeviceProcessEvents
+| where Timestamp > ago(7d) and FileName in~ ("net.exe", "net1.exe","wmic", "dsquery")  
+| extend CanonicalCommandLine=replace("\"", "", ProcessCommandLine)
+| where CanonicalCommandLine contains "group"
+| where CanonicalCommandLine contains "administrators" or CanonicalCommandLine contains "admins" or CanonicalCommandLine contains "ds_group"
