@@ -1,0 +1,5 @@
+DeviceProcessEvents
+| where ProcessCommandLine contains "regsvr32"
+| where ProcessCommandLine contains "temp" or ProcessCommandLine contains "/i:"
+| where ProcessCommandLine !contains "user"
+| project Timestamp, DeviceName, AccountName, ProcessCommandLine
