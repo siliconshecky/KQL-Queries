@@ -1,0 +1,14 @@
+//Query the list of Known Exploited Vulnerabilities provided by CISA - https://www.cisa.gov/known-exploited-vulnerabilities-catalog and query your devices for any that are vulnerable
+let KEV=
+externaldata(cveID: string, vendorProject: string, product: string, vulnerabilityName: string, dateAdded: datetime, shortDescription: string, requiredAction: string, dueDate: datetime)
+[
+h@'https://www.cisa.gov/sites/default/files/csv/known_exploited_vulnerabilities.csv'
+]
+with(format='csv',ignorefirstrecord=true);
+DeviceTvmSoftwareVulnerabilities
+| where DeviceName startswith "r"
+| project DeviceName, OSPlatform, cveID=CveId
+| join kind=inner KEV on cveID
+| summarize ['Vulnerabilities']=make_set(cveID) by DeviceName
+| extend ['Count of Known Exploited Vulnerabilities'] = array_length(['Vulnerabilities'])
+| sort by ['Count of Known Exploited Vulnerabilities']
