@@ -1,0 +1,6 @@
+DeviceProcessEvents  
+    | where Timestamp > ago(14d)
+    | where FileName in~ ("vssadmin.exe") 
+    | where InitiatingProcessFileName =~ "cmd.exe"  
+    | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId, InitiatingProcessParentFileName 
+    | top 100 by Timestamp 
