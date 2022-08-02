@@ -2,6 +2,7 @@
 // This may help detect Lockbit based on Sentile One's writeup at 
 // https://www.sentinelone.com/blog/living-off-windows-defender-lockbit-ransomware-sideloads-cobalt-strike-through-microsoft-security-tool/
 // The distinct projection can be changed to a standard project, but the noise ratio is awful with too much data returned 
+// Written by @SiliconShecky
 
 DeviceFileEvents
 | where Timestamp > ago(7d) // look back over the past week
