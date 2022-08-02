@@ -6,6 +6,7 @@
 DeviceFileEvents
 | where Timestamp > ago(7d) // look back over the past week
 | where FileName contains "mpclient" // check for the dll name
+| where InitiatingProcessFileName == "MpCmdRun.exe" // checks to make sure that mpclient is being run
 | where FolderPath !contains "\\programdata\\microsoft\\windows defender\\platform" // do not check the normal location for the dll being run
 | join DeviceFileCertificateInfo on DeviceName //This is for checking if it is a signed version of the dll joined on Device Name for distinct usage
 | where IsSigned //Only return if signed version of the file
