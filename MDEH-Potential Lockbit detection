@@ -10,4 +10,4 @@ DeviceFileEvents
 | where InitiatingProcessFileName == "MpCmdRun.exe" and IsSigned // checks to make sure that mpclient is being run
 | where FileName contains "mpclient"// checks for the misused dlls.
 | where FolderPath !contains "\\programdata\\microsoft\\windows defender\\platform" // do not check the normal location for the dll being run
-| distinct   DeviceName, Timestamp, FileName, FolderPath, InitiatingProcessFileName, InitiatingProcessFolderPath
+| distinct DeviceName, Timestamp, FileName, FolderPath, InitiatingProcessFileName, InitiatingProcessFolderPath
