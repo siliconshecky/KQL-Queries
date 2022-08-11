@@ -1,0 +1,4 @@
+let ParentProc = pack_array('powershell','pwsh','cmd');
+DeviceProcessEvents
+| where InitiatingProcessParentFileName has_any (ParentProc)
+| where ProcessCommandLine contains "ntdsutil"
