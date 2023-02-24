@@ -1,0 +1,15 @@
+// I included both a project and summarize output so you can switch between detail levels. I switch by commenting out the line I do not want to use.
+DeviceNetworkEvents
+| where Timestamp > ago (7d)
+| where ActionType == "ConnectionSuccess"
+| where RemotePort == 3389
+| where InitiatingProcessFileName == "mstsc.exe"
+| join DeviceLogonEvents on DeviceName
+//| where IsLocalAdmin != 1 // This if uncommented will not show local admins logging in 
+| where AccountName !contains "<service account name>"
+|where AccountName !contains "<SCCM Server Name>"
+|where AccountName !endswith "$"
+| where InitiatingProcessAccountName1 != "system"
+| where LogonType contains "Interactive"
+| summarize any(AccountName, InitiatingProcessAccountName, LogonType, IsLocalAdmin, RemoteUrl, RemotePort, InitiatingProcessFileName,  InitiatingProcessCommandLine) by DeviceName
+//| project DeviceName, InitiatingProcessAccountName, LogonType, IsLocalAdmin, RemoteUrl, RemotePort, InitiatingProcessFileName,  InitiatingProcessCommandLine, Timestamp
